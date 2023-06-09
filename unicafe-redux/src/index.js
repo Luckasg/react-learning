@@ -7,21 +7,22 @@ import reducer from './reducer'
 const store = createStore(reducer)
 
 const App = () => {
-  const good = () => {
+  const setMark = (mark, number) => {
     store.dispatch({
-      type: 'GOOD'
+      type: mark,
+      payload: {number}
     })
   }
 
   return (
     <div>
-      <button onClick={good}>good</button> 
-      <button>ok</button> 
-      <button>bad</button>
-      <button>reset stats</button>
+      <button onClick={() => setMark('GOOD', 5)}>good</button> 
+      <button onClick={() => setMark('OK', 4)}>ok</button> 
+      <button onClick={() => setMark('BAD', 3)}>bad</button>
+      <button onClick={() => setMark('ZERO', 0)}>reset stats</button>
       <div>good {store.getState().good}</div>
-      <div>ok</div>
-      <div>bad</div>
+      <div>ok {store.getState().ok}</div>
+      <div>bad {store.getState().bad}</div>
     </div>
   )
 }
