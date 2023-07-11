@@ -1,3 +1,4 @@
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -19,11 +20,25 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject)
 
-const reducer = (state = initialState, action) => {
+const ReducerAnecdotes = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
 
-  return state
+  switch (action.type) {
+    case 'VOTE':
+      const id = action.payload.id
+      const anecdoteToChange = state.find(a => a.id === id)
+      anecdoteToChange.votes++
+
+      return state.map( function (anectode) {
+        return anectode.id === id ? anecdoteToChange  : anectode
+      }).sort((a, b) => b.votes - a.votes)
+    case 'NEW_NOTE':
+      const note = action.payload
+      return state.concat(note).sort((a, b) => b.votes - a.votes)
+
+    default: return state
+  }
 }
 
-export default reducer
+export default ReducerAnecdotes
